@@ -1,12 +1,12 @@
 "use client";
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { MAPBOX_API_KEY } from ".env";
 
 const Map = ReactMapboxGl({
-  accessToken:
-  'pk.eyJ1IjoiaG9sYWxpYW1ld3UiLCJhIjoiY205N3ZtMXkwMGFhdjJxczZ0ajhhcGcxeCJ9.0oy090cNxxDPBtQvk_NzRQ'});
+  accessToken: MAPBOX_API_KEY
+});
 
-// in render()
 export default function MapView() {
     return(
         <Map
