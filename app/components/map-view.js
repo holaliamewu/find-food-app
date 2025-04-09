@@ -11,9 +11,12 @@ export default function MapView({currentLocation}) {
     <Map
       mapboxAccessToken= {mapBoxApiKey}
       initialViewState={{
-        longitude: currentLocation?.lng,
-        latitude: currentLocation?.lat,
-        zoom: 5.5
+        longitude: currentLocation ? currentLocation.lng : 0,
+        latitude: currentLocation ? currentLocation.lat : 0,
+        zoom: currentLocation ? 5.5 : 1,
+        projection: "globe",
+        container: "map",
+        setFog: {}
       }}
       style={{width: "100vw", height: "100vh"}}
       mapStyle="mapbox://styles/mapbox/streets-v9"
