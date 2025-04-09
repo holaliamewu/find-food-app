@@ -2,12 +2,13 @@
 
 import Map from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { MAPBOX_API_KEY } from "@/.env"
 
 export default function MapView({currentLocation}) {
+
+  const mapBoxApiKey = process.env.MAPBOX_API_KEY
   return (
     <Map
-      mapboxAccessToken= {MAPBOX_API_KEY}
+      mapboxAccessToken= {mapBoxApiKey}
       initialViewState={{
         longitude: currentLocation?.lng,
         latitude: currentLocation?.lat,
