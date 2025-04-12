@@ -5,34 +5,11 @@ import MapView from "./components/map-view";
 
 export default function MainPage() {
 
-  const [currentLocation, setCurrentLocation] = useState(null);
-  const [error, setError] = useState(null);
   const [showSuggestions, setShowSuggestions] = useState(false)
-
-  useEffect(() => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setCurrentLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        (err) => {
-          setError(err.message);
-        }
-      );
-    } else {
-      setError('Geolocation is not supported by your browser.');
-    }
-  }, []);
-
-  console.log(error);
-
 
   return(
     <div className="font-geistMono" >
-      <MapView currentLocation = {currentLocation} />
+      <MapView />
       <section className="w-full py-2 fixed bottom-6 left-0 z-1000" >
         <div className="flex flex-col bg-white w-fit h-fit mx-auto transition-all border border-stone-200 shadow gap-3 p-2 rounded-xl font-bold text-center" >
             <h1 onClick={ () => setShowSuggestions(item => !item)} className="text-left text-sm cursor-pointer" >Look around</h1>
