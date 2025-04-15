@@ -99,9 +99,7 @@ export default function MapView() {
   const [locationError, setLocationError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   
-  // Safely get the API key, with a fallback error message
   const mapBoxApiKey = process.env.NEXT_PUBLIC_MAPBOX_API_KEY;
-  
   
   const foodSpotsGeoJSON = {
     type: "FeatureCollection",
@@ -210,11 +208,10 @@ export default function MapView() {
       
       setMapInstance(map);
       
-      // If user location is available, fly to it with appropriate zoom
       if (userLocation) {
         map.flyTo({
           center: [userLocation.lng, userLocation.lat],
-          zoom: 15,  // More reasonable zoom level
+          zoom: 15, 
           essential: true
         });
       }
@@ -282,9 +279,9 @@ export default function MapView() {
       )}
       
       {userLocation && (
-        <div className="absolute bottom-4 right-4 z-10 bg-white p-2 rounded shadow">
+        <div className="absolute bottom-8 right-4 z-10 ">
           <button 
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1.5 rounded-xl shadow"
             onClick={() => {
               if (mapInstance) {
                 mapInstance.flyTo({
@@ -295,7 +292,8 @@ export default function MapView() {
               }
             }}
           >
-            Re-center to my location
+            <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="red" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin-icon lucide-map-pin"><path  d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="5" stroke="red" fill="white"/></svg>
+            <h4 className="text-[12px] " >Find me</h4>
           </button>
         </div>
       )}
