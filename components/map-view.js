@@ -277,26 +277,6 @@ export default function MapView() {
           )}
         </>
       )}
-      
-      {userLocation && (
-        <div className="absolute bottom-8 right-4 z-10 ">
-          <button 
-            className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1.5 rounded-xl shadow"
-            onClick={() => {
-              if (mapInstance) {
-                mapInstance.flyTo({
-                  center: [userLocation.lng, userLocation.lat],
-                  zoom: 18,
-                  essential: true
-                });
-              }
-            }}
-          >
-            <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="red" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin-icon lucide-map-pin"><path  d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="5" stroke="red" fill="white"/></svg>
-            <h4 className="text-[12px] " >Find me</h4>
-          </button>
-        </div>
-      )}
     </div>
   );
 }
