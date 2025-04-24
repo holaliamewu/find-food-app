@@ -245,9 +245,9 @@ export default function MapView() {
   }
 
   return (
-    <div className="relative w-screen h-screen">
+    <div className="relative w-[100svw] h-screen">
       {locationError && (
-        <div className="absolute top-4 left-4 right-4 z-10 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        <div className="absolute top-4 left-4 right-4 z-10 text-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
           {locationError}
         </div>
       )}
