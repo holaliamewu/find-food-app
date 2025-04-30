@@ -14,11 +14,19 @@ const FoodMarker = ({ spot, map }) => {
     if (markerRef.current && map) {
       // Create popup content
       const popupContent = `
-        <strong>${spot.properties.title}</strong><br>
-        ${spot.properties.description}<br>
-        <em>Category: ${spot.properties.category}</em>
+        <div style="display: flex; flex-direction: column; box-sizing: border; width: fit ; font-family: 'Manrope';">
+          <img
+        style="width: 100%; max-width: 100%; height: 150px; object-fit: cover; border-radius: 5px; background-color: #d1f7c4;"
+        src="${spot.properties.image || 'https://via.placeholder.com/300x150'}"
+        alt="location"
+          />
+          <div style="font-family: 'Manrope';margin-top: 10px;">
+        <h1 style="font-size: 18px; font-weight: bold; color: #333;">${spot.properties.title}</h1>
+        <h4 style="font-size: 12px; font-weight: 600; color: #555;">${spot.properties.category}</h4>
+        <p style="font-size: 14px; color: #666; margin-top: 8px;">${spot.properties.description}</p>
+          </div>
+        </div>
       `;
-      
       // Create marker with popup
       new mapboxgl.Marker(markerRef.current)
         .setLngLat(spot.geometry.coordinates)
@@ -98,9 +106,10 @@ export default function MapView() {
   const [userLocation, setUserLocation] = useState(null);
   const [locationError, setLocationError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  
+  const [selectedSpot, setSelectedSpot] = useState(null);
+
   const mapBoxApiKey = process.env.NEXT_PUBLIC_MAPBOX_API_KEY;
-  
+
   const foodSpotsGeoJSON = {
     type: "FeatureCollection",
     features: [
@@ -108,74 +117,74 @@ export default function MapView() {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [-0.1870, 5.6037] // Accra - Osu Food Street
+          coordinates: [-0.1870, 5.6037], // Accra - Osu Food Street
         },
         properties: {
           title: "Osu Food Street",
           description: "Popular food district with various restaurants and street food",
-          category: "Street Food"
-        }
+          category: "Street Food",
+        },
       },
       {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [-0.1657, 5.5913] // Accra - Koffee Lounge
+          coordinates: [-0.1657, 5.5913], // Accra - Koffee Lounge
         },
         properties: {
           title: "Koffee Lounge",
           description: "Cozy café with local and international dishes",
-          category: "Café"
-        }
+          category: "Café",
+        },
       },
       {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [-0.1785, 5.6142] // Accra - Buka Restaurant
+          coordinates: [-0.1785, 5.6142], // Accra - Buka Restaurant
         },
         properties: {
           title: "Buka Restaurant",
           description: "Authentic West African cuisine",
-          category: "Traditional"
-        }
+          category: "Traditional",
+        },
       },
       {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [-1.6132, 6.6885] // Kumasi - Vic Baboo's Café
+          coordinates: [-1.6132, 6.6885], // Kumasi - Vic Baboo's Café
         },
         properties: {
           title: "Vic Baboo's Café",
           description: "Popular spot for local and Indian cuisine",
-          category: "Mixed Cuisine"
-        }
+          category: "Mixed Cuisine",
+        },
       },
       {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [-0.2321, 5.5765] // Accra - Zen Garden
+          coordinates: [-0.2321, 5.5765], // Accra - Zen Garden
         },
         properties: {
           title: "Zen Garden",
           description: "Asian fusion restaurant with beautiful garden setting",
-          category: "Asian Fusion"
-        }
-      }
-    ]
+          category: "Asian Fusion",
+        },
+      },
+    ],
   };
 
   useEffect(() => {
     setIsLoading(true);
-    
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setUserLocation({
             lng: position.coords.longitude,
-            lat: position.coords.latitude
+            lat: position.coords.latitude,
           });
           setIsLoading(false);
         },
@@ -187,7 +196,7 @@ export default function MapView() {
         {
           enableHighAccuracy: true,
           timeout: 10000,
-          maximumAge: 0
+          maximumAge: 0,
         }
       );
     } else {
@@ -200,19 +209,19 @@ export default function MapView() {
     const map = mapRef.current?.getMap();
     if (map) {
       map.setFog({
-        color: 'rgba(11, 11, 25, 0.8)',
-        'high-color': 'rgba(36, 56, 105, 0.5)',
-        'space-color': '#000011',
-        horizonBlend: 0.2
+        color: "rgba(11, 11, 25, 0.8)",
+        "high-color": "rgba(36, 56, 105, 0.5)",
+        "space-color": "#000011",
+        horizonBlend: 0.2,
       });
-      
+
       setMapInstance(map);
-      
+
       if (userLocation) {
         map.flyTo({
           center: [userLocation.lng, userLocation.lat],
-          zoom: 15, 
-          essential: true
+          zoom: 15,
+          essential: true,
         });
       }
     }
@@ -221,7 +230,7 @@ export default function MapView() {
   const initialView = {
     longitude: userLocation ? userLocation.lng : -1.0232,
     latitude: userLocation ? userLocation.lat : 7.9465,
-    zoom: userLocation ? 15 : 1 
+    zoom: userLocation ? 15 : 1,
   };
 
   useEffect(() => {
@@ -229,7 +238,7 @@ export default function MapView() {
       mapInstance.flyTo({
         center: [userLocation.lng, userLocation.lat],
         zoom: 15,
-        essential: true
+        essential: true,
       });
     }
   }, [mapInstance, userLocation]);
@@ -239,9 +248,11 @@ export default function MapView() {
   }
 
   if (!mapBoxApiKey) {
-    return <div className="flex items-center justify-center h-screen text-red-500">
-      Missing Mapbox API key. Please check your environment variables.
-    </div>;
+    return (
+      <div className="flex items-center justify-center h-screen text-red-500">
+        Missing Mapbox API key. Please check your environment variables.
+      </div>
+    );
   }
 
   return (
@@ -251,7 +262,7 @@ export default function MapView() {
           {locationError}
         </div>
       )}
-      
+
       <Map
         ref={mapRef}
         mapboxAccessToken={mapBoxApiKey}
@@ -265,16 +276,19 @@ export default function MapView() {
         mapStyle="mapbox://styles/mapbox/streets-v9"
         onLoad={handleMapLoad}
       />
-      
+
       {mapInstance && (
         <>
           {foodSpotsGeoJSON.features.map((spot, index) => (
-            <FoodMarker key={index} spot={spot} map={mapInstance} />
+            <FoodMarker
+              key={index}
+              spot={spot}
+              map={mapInstance}
+              onClick={() => setSelectedSpot(spot)}
+            />
           ))}
-          
-          {userLocation && (
-            <UserLocationMarker location={userLocation} map={mapInstance} />
-          )}
+
+          {userLocation && <UserLocationMarker location={userLocation} map={mapInstance} />}
         </>
       )}
     </div>
