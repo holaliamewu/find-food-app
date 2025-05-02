@@ -17,13 +17,13 @@ const FoodMarker = ({ spot, map }) => {
         <div style="display: flex; flex-direction: column; box-sizing: border; width: fit ; font-family: 'Manrope';">
           <img
         style="width: 100%; max-width: 100%; height: 150px; object-fit: cover; border-radius: 5px; background-color: #d1f7c4;"
-        src="${spot.properties.image || 'https://via.placeholder.com/300x150'}"
+        src="https://images.app.goo.gl/vk3A8WXgR8PmPNXr7"
         alt="location"
           />
           <div style="font-family: 'Manrope';margin-top: 10px;">
         <h1 style="font-size: 18px; font-weight: bold; color: #333;">${spot.properties.title}</h1>
         <h4 style="font-size: 12px; font-weight: 600; color: #555;">${spot.properties.category}</h4>
-        <p style="font-size: 14px; color: #666; margin-top: 8px;">${spot.properties.description}</p>
+        <p style="font-size: 13px; color: #666; margin-top: 8px;">${spot.properties.description}</p>
           </div>
         </div>
       `;
